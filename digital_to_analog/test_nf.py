@@ -1,6 +1,5 @@
 import pytest
-from digital_to_analog import digital_to_analog*
-
+import digital_to_analog
 
 class TestNofarsFunctions:
     """ A couple of tests for nofars_functions """
