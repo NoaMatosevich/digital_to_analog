@@ -78,10 +78,13 @@ class Bird(pygame.sprite.Sprite):
         now = datetime.datetime.now()
         date = now.strftime('%D')
         f_name = name + date
+        f_name = str(f_name)
+        f_name = f_name.replace("/", "")
+        self.socket.send_json(f_name)
+        incoming = self.socket.recv_json()
+        self.get_max()
 
-        self.get_max(f_name)
-
-    def get_max(self, fname):
+    def get_max(self):
         easygui.ccbox('insert image with hebrew inst for max check')
         # max config
         self.socket.send_json(0, flags=0)

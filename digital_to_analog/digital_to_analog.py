@@ -5,6 +5,7 @@ import numpy as np
 from os import makedirs, path
 import errno
 from devices_config import device_dictionary
+import pathlib
 
 MAX_BOARD_NUM = 100
 columns = ["timestamp", "value"]
