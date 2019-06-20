@@ -1,7 +1,7 @@
 
 import zmq
 import pygame,random,datetime,easygui,winsound,time
-from prefrences import channels, max_time
+from preferences import channels, max_time
 
 
 pygame.init()
@@ -74,7 +74,7 @@ class Bird(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
         self.last_income = incoming
 
-    def pre_run():
+    def pre_run(self):
         """
         gui input of sensors serial no
         """
@@ -95,11 +95,10 @@ class Bird(pygame.sprite.Sprite):
         
         return actives , str_vals
         
-    def assert_sensors(actives,str_vals):
+    def assert_sensors(self, actives,str_vals):
         """
         double check with user his inputs
         """
-        actives,str_vals = pre_run()
         check = easygui.ccbox(msg=f'this are the active sensors and their serial number\n {actives} \n if any of the information is not correct please press cancel and start again',title='sensors info')
         if check == True:
             return str_vals
@@ -313,7 +312,8 @@ if __name__ == "__main__":
     socket = initialize_client_socket()
     g = Game(socket)
     b = Bird(g, socket)
-    b.assert_sensors()
+    active, vals = b.pre_run()
+    b.assert_sensors(active, vals)
 
     while g.run:
         b.start_screen()
