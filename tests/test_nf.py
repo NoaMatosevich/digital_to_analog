@@ -1,4 +1,5 @@
-from nofars_functions import *
+import pytest
+from digital_to_analog import digital_to_analog*
 
 
 class TestNofarsFunctions:
@@ -46,13 +47,3 @@ class TestNofarsFunctions:
             assert isinstance(connection, Connection)
             assert connection.channel_number == target_channels[index]
 
-
-if __name__ == "__main__":
-    test = TestNofarsFunctions()
-    test.test_connection_init()
-    test.test_sample_device()
-    test.test_normalize_value()
-    test.test_volt_to_newton()
-    test.test_parse_client_init_message()
-
-    print("Test successful!")

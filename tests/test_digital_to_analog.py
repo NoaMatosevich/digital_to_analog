@@ -9,6 +9,7 @@ from click.testing import CliRunner
 
 from digital_to_analog import digital_to_analog
 from digital_to_analog import cli
+from digital_to_analog import client
 
 
 @pytest.fixture
@@ -20,11 +21,19 @@ def response():
     # import requests
     # return requests.get('https://github.com/audreyr/cookiecutter-pypackage')
 
+    socket = initialize_client_socket()
+    g = Game(socket)
+    b = Bird(g, socket)
+    assert b.acc == vec(0, 0)
+
 
 def test_content(response):
     """Sample pytest test function with the pytest fixture as an argument."""
-    # from bs4 import BeautifulSoup
-    # assert 'GitHub' in BeautifulSoup(response.content).title.string
+
+    socket = initialize_client_socket()
+    g = Game(socket)
+    b = Bird(g, socket)
+    assert g.score == 0
 
 
 def test_command_line_interface():
