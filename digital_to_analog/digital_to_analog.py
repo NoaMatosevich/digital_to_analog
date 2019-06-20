@@ -79,9 +79,7 @@ def detect_connections(connections):
 def parse_client_init_message(init_message: str):
     connections = []
     couples = init_message.split(sep=",")
-    print(couples)
     for couple in couples:
-        print(couple)
         channel_number, serial_number = couple.split("_")
         factor = device_dictionary[serial_number]
         connections.append(Connection(channel_number=int(channel_number), factor=factor))

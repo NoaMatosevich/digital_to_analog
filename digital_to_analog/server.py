@@ -129,8 +129,6 @@ def server_socket():
             wrap_up(connections, df_list)
             exit(0)
             break
-        elif isinstance(incoming,str):
-            path = incoming
 
 
 if __name__ == "__main__":
