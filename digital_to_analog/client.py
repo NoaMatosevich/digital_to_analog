@@ -1,7 +1,8 @@
 
 import zmq
-import pygame,random,datetime,easygui,winsound
-from preferences import channels, max_time
+import pygame,random,datetime,easygui,winsound,time
+from prefrences import channels, max_time
+
 
 pygame.init()
 white=(255,255,255)
@@ -72,6 +73,38 @@ class Bird(pygame.sprite.Sprite):
         self.rect.center = self.pos
         self.mask = pygame.mask.from_surface(self.image)
         self.last_income = incoming
+
+    def pre_run():
+        """
+        gui input of sensors serial no
+        """
+
+        msg = "Enter sensors details"
+        title = "Sensors cofiguration"
+        fieldNames = ["Channel00","Channel01","Channel02","Channel03","Channel04","Channel05","Chanel06","Chanel07"]
+        fieldValues = []  # we start with blanks for the values
+        fieldValues = easygui.multenterbox(msg,title, fieldNames)
+        str_vals = ''
+        actives = []
+        for i in range(len(fieldValues)):
+            if fieldValues[i] == '':
+                pass
+            else:
+                str_vals += fieldNames[i]+'_'+fieldValues[i]+','
+                actives.append((fieldNames[i],fieldValues[i]))
+        
+        return actives , str_vals
+        
+    def assert_sensors(actives,str_vals):
+        """
+        double check with user his inputs
+        """
+        actives,str_vals = pre_run()
+        check = easygui.ccbox(msg=f'this are the active sensors and their serial number\n {actives} \n if any of the information is not correct please press cancel and start again',title='sensors info')
+        if check == True:
+            return str_vals
+        else:
+            pygame.quit()
 
     def start_screen(self):
         name = easygui.enterbox('full name:')
@@ -199,6 +232,7 @@ class Game:
         wait = 1
         self.gover = 1
         while wait:
+           
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.socket.send_json(2, flags=0, )
@@ -272,9 +306,12 @@ def initialize_client_socket():
 
 
 if __name__ == "__main__":
+
     socket = initialize_client_socket()
     g = Game(socket)
     b = Bird(g, socket)
+    b.assert_sensors()
+
     while g.run:
         b.start_screen()
         g.new()
